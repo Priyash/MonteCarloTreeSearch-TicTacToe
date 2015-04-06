@@ -206,7 +206,8 @@ Node* Node::select()
 	Node* selectedChild=nullptr;
 	for (auto child : children)
 	{
-		uctValue = (double)((child->getNoOfWins() / (child->getNoOfVisits() + epsilon)) + 2*(double)sqrt(log(getNoOfVisits() + 1) / (child->getNoOfVisits() + epsilon)));
+		uctValue = (double)((child->getNoOfWins() / (child->getNoOfVisits() + epsilon)) + 1.44*(double)sqrt(log(getNoOfVisits() + 1) / (child->getNoOfVisits() + epsilon)));
+		uctValue += rand()*epsilon;
 		if (bestValue < uctValue)
 		{
 			bestValue = uctValue;
@@ -274,6 +275,13 @@ void Node::update(int value)
 }
 
 
+
+
+
+
+
+
+
 //-----------------------------------------------------------PLAYER CLASS-------------------------------------//
 //player class that will execute monte carlo framework 
 class Player
@@ -302,7 +310,7 @@ void Player::play()
 	int value;
 	Node* temp = NULL;
 	Node* root = new Node(board, NULL);
-	for (int i = 0; i < 10000; i++)
+	for (int i = 0; i < 5000; i++)
 	{
 		Node* curr = root;
 		//currentSymbol ->the one this player will play with
@@ -352,6 +360,7 @@ void Player::play()
 	best->print_moves();
 	board = best->getBoard();
 	isMyTurn = false;
+	children.clear();
 }
 
 //-----------------------------------------------------------------------------------------------------------//
